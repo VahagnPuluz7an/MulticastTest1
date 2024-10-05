@@ -3,7 +3,7 @@ component PlayerData
    UpgradeData AttackRange;
    UpgradeData Damage;
    UpgradeData Speed;
-   bool Upgrading;
+   int KillCount;
 }
 
 struct UpgradeData
@@ -15,5 +15,6 @@ struct UpgradeData
 
 event PlayerUpgraded
 {
+    entity_ref Entity;
     PlayerData data;
 }

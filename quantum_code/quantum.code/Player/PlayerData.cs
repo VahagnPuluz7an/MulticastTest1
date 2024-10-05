@@ -6,12 +6,7 @@ namespace Quantum
 {
     public unsafe partial struct PlayerData
     {
-        public void StartUpgrade()
-        {
-            Upgrading = true;
-        }
-        
-        public void Upgrade(Frame f)
+        public void Upgrade(Frame f, EntityRef entity)
         {
             var upgrades = new List<UpgradeData>()
             {
@@ -21,7 +16,6 @@ namespace Quantum
             };
 
             int i = GetRandomUpgradeIndex(f, upgrades);
-            Upgrading = false;
 
             switch (i)
             {
@@ -36,7 +30,7 @@ namespace Quantum
                     break;
             }
 
-            f.Events.PlayerUpgraded(this);
+            f.Events.PlayerUpgraded(entity,this);
         }
         
         private int GetRandomUpgradeIndex(Frame f, List<UpgradeData> upgrades)
@@ -55,6 +49,12 @@ namespace Quantum
             }
 
             return 0;
+        }
+
+        public void AddKill(Frame f, EntityRef entity)
+        {
+            KillCount++;
+            f.Events.PlayerUpgraded(entity,this);
         }
     }
 }

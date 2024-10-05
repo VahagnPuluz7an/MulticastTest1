@@ -7,6 +7,7 @@ public class PlayerStatsUI : MonoBehaviour
     [SerializeField] private TMP_Text attackRangeText;
     [SerializeField] private TMP_Text damageText;
     [SerializeField] private TMP_Text speedText;
+    [SerializeField] private TMP_Text killCount;
 
     private void Awake()
     {
@@ -25,6 +26,7 @@ public class PlayerStatsUI : MonoBehaviour
             attackRangeText.SetText("AttackRange: " + x.AttackRange.Value);
             damageText.SetText("Damage: " + x.Damage.Value);
             speedText.SetText("Speed: " + x.Speed.Value);
+            killCount.SetText("KillCount: " + x.KillCount);
         }).AddTo(this);
     }
 }

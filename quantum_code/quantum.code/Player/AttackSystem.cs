@@ -48,7 +48,12 @@ namespace Quantum.Player
                 f.Events.EnemyTakingDamage(enemy,true, filter.Link->Player);
 
                 var enemyComponent = f.Unsafe.GetPointer<EnemyComponent>(enemy);
-                enemyComponent->TakeDamage(f,enemy, playerData->Damage.Value * f.DeltaTime);
+                
+                var playerFilter = filter;
+                enemyComponent->TakeDamage(f,enemy, playerData->Damage.Value * f.DeltaTime, () =>
+                {
+                    playerData->AddKill(f, playerFilter.Entity);
+                });
             }
         }
     }

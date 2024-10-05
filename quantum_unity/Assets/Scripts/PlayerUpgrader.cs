@@ -1,5 +1,6 @@
 using System;
 using Quantum;
+using Quantum.Player;
 using UniRx;
 using UnityEngine;
 
@@ -24,11 +25,8 @@ public class PlayerUpgrader : MonoBehaviour
         var frame = game.Frames.Verified;
         if (frame.TryGet(view.EntityRef, out PlayerData playerData))
             PlayerDataReactive.Value = playerData;
-        
-        _subscription = QuantumEvent.Subscribe<EventPlayerUpgraded>(this, x =>
-        {
-            PlayerDataReactive.Value = x.data;
-        });
+
+        _subscription = QuantumEvent.Subscribe<EventPlayerUpgraded>(this, OnUpgrade);
     }
 
     public void Destroyed(QuantumGame game)
@@ -39,16 +37,22 @@ public class PlayerUpgrader : MonoBehaviour
     
     private void UpgradeRandom()
     {
-        var game = QuantumRunner.Default.Game;
-        var frame = game.Frames.Verified;
-
         if (!TryGetLocalPlayer(out int playerId))
             return;
 
-        if (frame.TryGet(view.EntityRef, out PlayerData playerData))
-             playerData.StartUpgrade();
+        var command = new PlayerUpgradeCommand()
+        {
+            PlayerEntity = view.EntityRef,
+        };
+        QuantumRunner.Default.Game.SendCommand(playerId,command);
     }
-
+    
+    private void OnUpgrade(EventPlayerUpgraded callback)
+    {
+        if (callback.Entity == view.EntityRef)
+            PlayerDataReactive.Value = callback.data;
+    }
+    
     private bool TryGetLocalPlayer(out int player)
     {
         player = -1;
