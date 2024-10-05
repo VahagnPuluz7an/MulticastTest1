@@ -1,0 +1,12 @@
+component EnemyComponent
+{
+    FP Health;
+    long Guid;
+}
+
+event EnemyTakingDamage
+{
+    entity_ref Entity;
+    bool active;
+    player_ref player;
+}

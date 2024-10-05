@@ -1,0 +1,19 @@
+component PlayerData
+{
+   UpgradeData AttackRange;
+   UpgradeData Damage;
+   UpgradeData Speed;
+   bool Upgrading;
+}
+
+struct UpgradeData
+{
+    FP Chance;
+    FP Value;
+    FP Step;
+}
+
+event PlayerUpgraded
+{
+    PlayerData data;
+}
